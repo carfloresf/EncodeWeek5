@@ -1,0 +1,81 @@
+<div class="px-4 py-5 my-5 text-center">
+  <h1 class="display-1 fw-bold">Lottery 4</h1>
+  <div class="col-lg-6 mx-auto">
+    <div *ngIf="!wallet" class="col-lg-6 mx-auto">
+      <p>
+        To enter the lottery you need to connect a wallet</p>
+        <div class="d-grid gap-2">
+       <div class="input-group mb-3">
+          <input #privateKey type="text" class="form-control" placeholder="Private Key" aria-label="Private Key" aria-describedby="button-addon2">
+          <button (click)="connectWallet(privateKey.value)"  class="btn btn-primary  btn-lg" type="button">Connect Wallet</button>
+        </div>
+      </div>
+    </div>
+  </div>
+  <div *ngIf="wallet" class="col-lg-6 mx-auto">
+    <p>You are connected to the wallet: {{ wallet.address }}</p>
+    <p *ngIf="lotteryContract">This application uses the lottery at the address: {{ lotteryAddress }}</p>
+    <p *ngIf="lotteryContract">Lottery state: {{ lotteryState }}</p>
+    <div class="d-grid gap-2 d-sm-flex justify-content-sm-center mt-4 mx-auto">
+      <div class="card px-1 p-2 bg-light col-sm-4">
+        <div class="card-body">My ether balance is: {{ etherBalance }}</div>
+      </div>
+      <div class="card px-1 p-2 bg-light col-sm-4">
+        <div class="card-body">My token balance is: {{ tokenBalance}}
+        </div>
+      </div>
+  </div>
+  <div *ngIf="lotteryContract"  class="d-grid gap-2 d-sm-flex justify-content-sm-center mt-4 mx-auto">
+      <div class="card px-1 p-2 bg-light col-sm-4">
+        <div class="card-body">
+            Your Token Prize: {{ yourPrize }}
+        </div>
+      </div>
+      <div class="card px-1 p-2 bg-light col-sm-4">
+        <div class="card-body">
+          Target time: {{ closingTime }}
+        </div>
+      </div>
+  </div>  
+    <div class="d-grid col-lg-6 mx-auto">
+    <p class="my-4">Open or Close bets: (in case it is needed)</p>
+      <div >
+        <button *ngIf="!betsOpen" (click)="openBets(1000)" type="button" class="btn btn-primary">Open Bets</button>
+        <button *ngIf="needsToBeClosed" (click)="closeLottery()" type="button" class="btn btn-secondary">Close Bets</button>
+      </div>
+    </div>
+    <p></p>
+    <div>
+    <div *ngIf="!lotteryContract">
+      <div class="input-group mb-3">
+        <span class="input-group-text" id="inputGroup-sizing-default">Ballot address:</span>
+        <input #ballotAddress  type="text" class="form-control" aria-label="Sizing example input" aria-describedby="inputGroup-sizing-default">
+        <button type="button"
+        class="btn btn-danger btn-lg px-4 gap-3">Connect Ballot</button>
+      </div>
+    </div>
+    <div class="d-grid gap-2 d-sm-flex justify-content-sm-center">
+      <div class="input-group mb-3">
+        <input type="text" #tokensToBuy class="form-control" placeholder="number of tokens to buy">
+        <button type="button" (click)="buyTokens(tokensToBuy.value)" class="btn btn-primary"  id="button-addon2">buy tokens</button>
+      </div>
+    </div>
+    <div class="d-grid gap-2 d-sm-flex justify-content-sm-center">
+      <div class="input-group mb-3">
+        <input type="text" #tokensToBet class="form-control" placeholder="number of tokens to bet">
+        <button type="button" (click)="betTokens(tokensToBet.value)" class="btn btn-primary"  id="button-addon2">bet tokens</button>
+      </div>
+    </div>
+    <div class="d-grid gap-2 d-sm-flex justify-content-sm-center">
+      <div *ngIf="claimable" class="input-group mb-3">
+        <input type="text" #tokensToClaim class="form-control" placeholder="number of tokens to claim">
+        <button type="button" (click)="claimPrize(tokensToClaim.value)" class="btn btn-primary"  id="button-addon2">claim prize</button>
+      </div>
+      <div class="input-group mb-3">
+        <input type="text" #tokensToReturn class="form-control" placeholder="number of tokens to burn">
+        <button type="button" (click)="burnTokens(tokensToReturn.value)" class="btn btn-primary"  id="button-addon2">burn tokens</button>
+      </div>
+    </div>
+    </div> 
+  </div>
+</div>

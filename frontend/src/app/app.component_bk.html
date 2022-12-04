@@ -1,0 +1,110 @@
+
+<div class="px-4 py-5 my-5 text-center">
+  <h1 class="display-5 fw-bold">My ballot example</h1>
+  <div class="col-lg-6 mx-auto">
+    <div *ngIf="!wallet" class="col-lg-6 mx-auto">
+      <p>
+        To use this ballot you need to connect a wallet</p>
+        <div class="d-grid gap-2">
+        <button (click)="createWallet()" type="button" class="btn btn-primary  btn-lg">Create Wallet</button>
+          <p>OR</p>
+       <div class="input-group mb-3">
+          <input #privateKey type="text" class="form-control" placeholder="Private Key" aria-label="Private Key" aria-describedby="button-addon2">
+          <button (click)="connectWallet(privateKey.value)"  class="btn btn-primary  btn-lg" type="button">Connect Wallet</button>
+        </div>
+      </div>
+    </div>
+  </div>
+  <div *ngIf="wallet" class="col-lg-6 mx-auto">
+    <p>You are connected to the wallet: {{ wallet.address }}</p>
+    <p>This application uses the token at the address: {{ tokenAddress }}</p>
+    <p *ngIf="ballotContract">Ballot Contract Address: {{ ballotAddress }}</p>
+    <div class="d-grid gap-2 d-sm-flex justify-content-sm-center mt-4 mx-auto">
+      <div class="card px-1 p-2 bg-light col-sm-4">
+        <div class="card-body">My ether balance is: {{ etherBalance }}</div>
+      </div>
+      <div class="card px-1 p-2 bg-light col-sm-4">
+        <div class="card-body">My token balance is: {{ tokenBalance}}
+        </div>
+      </div>
+      <div class="card px-1 p-2 bg-light col-sm-4">
+        <div class="card-body">My voting power is:  {{votePower}}
+        </div>
+      </div>
+  </div>
+  <div *ngIf="ballotContract"  class="d-grid gap-2 d-sm-flex justify-content-sm-center mt-4 mx-auto">
+      <div class="card px-1 p-2 bg-light col-sm-4">
+        <div class="card-body">
+            Winning proposal: {{ winnerName }}
+        </div>
+      </div>
+      <div class="card px-1 p-2 bg-light col-sm-4">
+        <div class="card-body">
+          Voting target block: {{ targetBlock }}
+        </div>
+      </div>
+  </div>  
+    <div class="d-grid col-lg-6 mx-auto">
+    <p class="my-4">Claim your tokens here and self delegate them:</p>
+      <div *ngIf="!claimedTokens">
+        <button (click)="claimTokens()" type="button" class="btn btn-primary">Claim Tokens</button>
+        <button (click)="selfDelegate()" type="button" class="btn btn-secondary">selfDelegate</button>
+        <div *ngIf="selfDelegated" class="col-lg-6 mx-auto">
+          <p>
+            Self delegated tokens</p>
+            </div>
+      </div>
+    </div>
+    <p></p>
+    <div>
+    <div *ngIf="!ballotContract">
+      <div class="input-group mb-3">
+        <span class="input-group-text" id="inputGroup-sizing-default">Ballot address:</span>
+        <input #ballotAddress  type="text" class="form-control" aria-label="Sizing example input" aria-describedby="inputGroup-sizing-default">
+        <button (click)="connectBallot(ballotAddress.value)" type="button"
+        class="btn btn-danger btn-lg px-4 gap-3">Connect Ballot</button>
+      </div>
+    </div>
+    <div  class="d-sm-flex justify-content-sm-center">
+      <div class="input-group mb-3">
+        <span class="input-group-text" id="inputGroup-sizing-default">Delegatee address:</span>
+        <input #delegateAddress  type="text" class="form-control" aria-label="Sizing example input" aria-describedby="inputGroup-sizing-default">
+        <button (click)="delegate(delegateAddress.value)" type="button"
+        class="btn btn-outline-secondary">delegate</button>
+      </div>
+    </div>
+    <div *ngIf="ballotContract">
+      <div class="d-grid gap-2 d-sm-flex justify-content-sm-center">
+        <div class="card">
+          <h5 class="card-title">0</h5>
+          <div class="card-body">{{ proposals[0]}}</div>
+        </div>
+        <div class="card">
+          <h5 class="card-title">1</h5>
+          <div class="card-body">{{ proposals[1]}}
+          </div>
+        </div>
+        <div class="card">
+          <h5 class="card-title">2</h5>
+          <div class="card-body">{{proposals[2]}}
+          </div>
+        </div>
+      </div>
+      <div *ngIf="!voted" class="d-grid gap-2 d-sm-flex justify-content-sm-center">
+        <div class="input-group mb-3">
+          <input type="text" class="form-control" placeholder="proposal" aria-label="proposal" #proposal>
+          <span class="input-group-text">x</span>
+          <input type="text" #numberOfVotes class="form-control" placeholder="numberOfVotes" aria-label="numberOfVotes">
+          <button (click)="castVote(proposal.value,numberOfVotes.value)" type="button"
+          class="btn btn-primary"  id="button-addon2">vote</button>
+        </div>
+        </div>
+    </div>
+    <div *ngIf="voted" class="px-1 p-5 rounded-3 col-sm-2">
+      <div class="container-fluid py-5">
+        <p class="fs-4">Voted!</p>
+      </div>
+    </div>
+    </div>
+  </div>
+</div>
